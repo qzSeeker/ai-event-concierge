@@ -91,7 +91,7 @@ create table searches (
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/ai-event-concierge.git
+git clone https://github.com/qzSeeker/ai-event-concierge.git
 cd ai-event-concierge
 ```
 
@@ -199,6 +199,5 @@ Add the same three environment variables in your Vercel project settings under *
 
 ## Author
 
-**Arpit Yadav**  
-B.Sc. Computer Science (Final Year)  
-[Portfolio](https://qzseeker.vercel.app) · [GitHub](https://github.com/your-username)
+**Arpit Yadav**    
+[Portfolio](https://qzseeker.vercel.app) · [GitHub](https://github.com/qzSeeker)
