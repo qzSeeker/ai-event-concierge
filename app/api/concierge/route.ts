@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { groq } from '@/lib/groq'
 import { supabase } from '@/lib/supabase'
+import { getSessionId } from '@/lib/session'
 
 export async function POST(req: NextRequest) {
     try {
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
             location: proposal.location,
             estimated_cost: proposal.estimated_cost,
             why_it_fits: proposal.why_it_fits,
+            session_id: getSessionId(),
         })
         .select()
         .single()

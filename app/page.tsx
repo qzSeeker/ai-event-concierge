@@ -7,6 +7,7 @@ import SearchBox from '@/components/SearchBox'
 import ProposalCard from '@/components/ProposalCard'
 import HistoryList from '@/components/HistoryList'
 import { motion } from 'framer-motion'
+import { getSessionId } from '@/lib/session'
 
 export default function Home() {
   const [loading, setLoading] = useState(false)
@@ -14,7 +15,8 @@ export default function Home() {
   const [history, setHistory] = useState<any[]>([])
 
   const fetchHistory = async () => {
-    const res = await fetch('/api/history')
+    const sessionId = getSessionId()
+    const res = await fetch(`/api/history?sessionId=${sessionId}`)
     const json = await res.json()
     if (json.success) setHistory(json.data)
   }

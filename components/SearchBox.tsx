@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { getSessionId } from '@/lib/session'
 
 interface Props {
     onResult: (data: any) => void
@@ -21,7 +22,7 @@ export default function SearchBox({ onResult, onLoading, loading }: Props) {
         const res = await fetch('/api/concierge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query }),
+            body: JSON.stringify({ query, sessionId: getSessionId() }),
         })
         const json = await res.json()
         if (json.success) {

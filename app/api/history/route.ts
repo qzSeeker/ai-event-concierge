@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { getSessionId } from "@/lib/session";
 
 export async function GET() {
     try {
         const { data, error } = await supabase
             .from("searches")
             .select("*")
+            .eq('session_id', getSessionId())
             .order("created_at", { ascending: false })
             .limit(20)
 
