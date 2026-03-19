@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useState } from 'react'
+import { RefObject, useState } from 'react'
 import { motion } from 'framer-motion'
-import { getSessionId } from '@/lib/session'
 
 interface Props {
     onResult: (data: any) => void
     onLoading: (loading: boolean) => void
     loading: boolean
+    sessionIdRef: RefObject<string>
 }
 
-export default function SearchBox({ onResult, onLoading, loading }: Props) {
+export default function SearchBox({ onResult, onLoading, loading, sessionIdRef }: Props) {
     const [query, setQuery] = useState('')
 
     const handleSubmit = async () => {
-        if (!query.trim() || loading) return
+        if (!query.trim() || loading || !sessionIdRef) return
 
         onLoading(true)
         try {
         const res = await fetch('/api/concierge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query, sessionId: getSessionId() }),
+            body: JSON.stringify({ query, sessionId: sessionIdRef }),
         })
-        const json = await res.json()
+        const json = await res.json()  
+
         if (json.success) {
             onResult(json.data)
             setQuery('')

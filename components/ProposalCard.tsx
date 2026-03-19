@@ -10,6 +10,7 @@ interface Proposal {
     estimated_cost: string
     why_it_fits: string
     created_at: string
+    session_id: string
 }
 
 interface Props {

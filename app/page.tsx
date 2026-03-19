@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SearchBox from '@/components/SearchBox'
 import ProposalCard from '@/components/ProposalCard'
 import HistoryList from '@/components/HistoryList'
@@ -13,16 +13,19 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [proposal, setProposal] = useState<any>(null)
   const [history, setHistory] = useState<any[]>([])
-
-  const fetchHistory = async () => {
-    const sessionId = getSessionId()
-    const res = await fetch(`/api/history?sessionId=${sessionId}`)
+  const sessionIdRef = useRef<string>('')  
+  
+  const fetchHistory = async (id: string) => {
+    if (!id) return
+    const res = await fetch(`/api/history?sessionId=${id}`)
     const json = await res.json()
     if (json.success) setHistory(json.data)
-  }
-
+    }
+  
   useEffect(() => {
-    fetchHistory()
+    const id = getSessionId()
+    sessionIdRef.current = id
+    fetchHistory(id)
   }, [])
 
   const handleResult = (data: any) => {
@@ -50,11 +53,12 @@ export default function Home() {
           onResult={handleResult}
           onLoading={setLoading}
           loading={loading}
+          sessionIdRef={sessionIdRef}
         />
 
         <ProposalCard proposal={proposal} />
 
-        <HistoryList history={proposal ? history.slice(1) : history} />
+        <HistoryList history={history} />
 
       </div>
     </main>
